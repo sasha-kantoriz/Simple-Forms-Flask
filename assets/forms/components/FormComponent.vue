@@ -20,7 +20,9 @@
         </div>
     </div>
 
-    <p v-for="(notification, index) in notifications" :key="notification">{{ notification }}</p>
+    <div class="notification" @click="hideNotification($event.target)" v-for="(notification, index) in notifications" :key="notification">
+        {{ notification }}
+    </div>
 </template>
 
 <script>
@@ -33,7 +35,8 @@ export default {
   },
   data() {
     return {
-    notifications: [],
+        notifications: [],
+        clearNotificationsAfter: 5000,
         children: [],
         form: {
             name: '',
@@ -77,15 +80,40 @@ export default {
         this.form = {};
         this.children = [];
         // clear notifications
-        setTimeout(this.clearNotifications, 5000);
+        setTimeout(this.clearNotifications, this.clearNotificationsAfter);
     },
     clearNotifications: function() {
         this.notifications = [];
-    }
+    },
+    hideNotification(target) {
+        target.style.opacity = 0;
+    },
   }
 }
 </script>
 
 <style scoped>
-
+.notification {
+    position: fixed;
+    width: 25%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    bottom: .5rem;
+    right: 1rem;
+    margin: .5rem 0;
+    padding: 1rem;
+    border-radius: .3rem;
+    box-shadow: 0 0 1rem 0rem rgb(0, 0, 0, 0.5);
+    filter: opacity(90%);
+    background: #0091EA;
+    color: #fff;
+}
+@media only screen and (max-width: 600px) {
+    .notification {
+        width: 60%;
+    }
+}
 </style>
