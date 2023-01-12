@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Update Child data</title>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class=form-"wrapper">
+        <form action="{{ url_for('obtain_child', _id=_id) }}" method="post">
+            {{ form.csrf_token() }}
+            {{ form.name(class_="form-control", placeholder=child.name) }}
+            {{ form.phone(class_="form-control", placeholder=child.phone) }}
+            {{ form.email(class_="form-control", placeholder=child.email) }}
+            <div class="form-buttons" role="group">
+                <a class="btn btn-primary" type="submit">Update</a>
+                <a class="btn btn-primary" href="{{ url_for('delete_child', _id=_id) }}" type="button">Delete</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

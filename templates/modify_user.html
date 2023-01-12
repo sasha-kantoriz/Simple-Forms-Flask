@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Update Member data</title>
+{% endblock %}
+
+{% block headercss %}
+
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-wrapper">
+        <form action="{{ url_for('obtain_user', _id=_id) }}" method="post">
+            {{ form.csrf_token() }}
+            {{ form.name(class_="form-control", placeholder=user.name) }}
+            {{ form.phone(class_="form-control", placeholder=user.phone) }}
+            {{ form.email(class_="form-control", placeholder=user.email) }}
+            <div class="form-buttons" role="group">
+                <a class="btn btn-primary" type="submit">Update</a>
+                <a class="btn btn-primary" href="{{ url_for('delete_parent', _id=_id) }}" type="button">Delete</a>
+                {% if user.children %}
+                <a class="btn btn-primary" href="{{ url_for('obtain_chlidren', parent_id=_id) }}" type="button">Children</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

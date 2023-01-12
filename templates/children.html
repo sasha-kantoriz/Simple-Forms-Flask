@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>View Child Member</title>
+{% endblock %}
+
+{% block content %}
+    <div id="table" class="table-container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.phone }}</td>
+                        <td>{{ row.email }}</td>
+                        <td>
+                            <div class="table-controls">
+                                <a class="btn btn-primary" href="{{ url_for('obtain_child', _id=row.id) }}" type="button">Modify</a>
+                                <a class="btn btn-primary" href="{{ url_for('delete_child', _id=row.id) }}" type="button">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

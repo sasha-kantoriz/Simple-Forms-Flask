@@ -1,0 +1,7 @@
+.py/
+__pycache__/
+node_modules/
+.idea/
+info.db
+static/img/
+static/index-bundle.js
