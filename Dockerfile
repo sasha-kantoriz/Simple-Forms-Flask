@@ -1,9 +1,10 @@
 FROM node:18-alpine as frontend
 
 WORKDIR /app
-ADD . /app
-
+ADD package*.json webpack.config.js /app/
 RUN npm install
+ADD assets/ /app/assets/
+RUN npm run bundle
 
 FROM python:3-alpine3.10
 RUN apk update && apk add build-base gcc musl-dev
