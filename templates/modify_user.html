@@ -17,7 +17,7 @@
             {{ form.phone(class_="form-control", placeholder=user.phone) }}
             {{ form.email(class_="form-control", placeholder=user.email) }}
             <div class="form-buttons" role="group">
-                <a class="btn btn-primary" type="submit">Update</a>
+                <button class="btn btn-primary" type="submit">Update</button>
                 <a class="btn btn-primary" href="{{ url_for('delete_parent', _id=_id) }}" type="button">Delete</a>
                 {% if user.children %}
                 <a class="btn btn-primary" href="{{ url_for('obtain_chlidren', parent_id=_id) }}" type="button">Children</a>

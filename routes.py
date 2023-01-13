@@ -32,7 +32,7 @@ def obtain_user(_id):
         return abort(404, 'Not Found')
     modify_user_form = forms.UserForm()
     if request.method == 'POST':
-        update_user(_id, modify_user_form.name, modify_user_form.phone, modify_user_form.email)
+        update_user(_id, modify_user_form.name.data, modify_user_form.phone.data, modify_user_form.email.data)
     return render_template('modify_user.html', _id=_id, form=modify_user_form, user=user)
 def obtain_chlidren(parent_id):
     from app import update_child, get_user_by_id
@@ -49,7 +49,7 @@ def obtain_child(_id):
     if not child:
         return abort(404, 'Not Found')
     if request.method == 'POST':
-        update_child(_id, form.name, form.phone, form.email)
+        update_child(_id, form.name.data, form.phone.data, form.email.data)
     return render_template('modify_child.html', _id=_id, form=form, child=child)
 def modify_database(the_id ,modified_category):
     if request.method == 'POST':
