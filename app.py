@@ -7,8 +7,14 @@ import routes
 import views
 
 def create_the_database(db):
+    if not os.path.exists(DB_DIR):
+        os.mkdir(DB_DIR)
     db.create_all()
 
+
+BASE_DIR = os.path.dirname(__file__)
+DB_DIR = os.getenv('DB_DIR', os.path.join(BASE_DIR, 'database'))
+DB_NAME = os.path.join(DB_DIR, 'info.db')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'A secret'
@@ -31,8 +37,8 @@ app.add_url_rule('/delete/child/<_id>', methods=all_methods, view_func=routes.de
 
 app.register_blueprint(views.auth)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # no warning messages
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///info.db' # for using the sqlite database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # no warning messages
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_DIR}/info.db'  # for using the sqlite database
 
 db = SQLAlchemy(app)
 
@@ -132,7 +138,7 @@ def get_all_rows_from_table():
     
 
 # if database does not exist in the current directory, create it!
-db_is_new = not os.path.exists('info.db')
+db_is_new = not os.path.exists(DB_NAME)
 if db_is_new:
     create_the_database(db)
 
