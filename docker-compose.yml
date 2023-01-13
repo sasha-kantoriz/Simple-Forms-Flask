@@ -1,0 +1,10 @@
+services:
+  forms_app:
+    build: .
+    command: python3 app.py
+    ports:
+      - 5000:5000
+    volumes:
+      - data:/app/database
+volumes:
+  data:
