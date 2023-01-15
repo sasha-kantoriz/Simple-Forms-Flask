@@ -18,9 +18,9 @@ def index():
 def all_members():
     member_form = BaseMemberForm()
     if request.method == 'GET':
-        mother_choices = [(c.id, c.full_name) for c in get_mother_candidates(roles=['adult', 'grand'])]
+        mother_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_mother_candidates(roles=['adult', 'grand'])]
         member_form.mother_id.choices = mother_choices
-        father_choices = [(c.id, c.full_name) for c in get_father_candidates(roles=['adult', 'grand'])]
+        father_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_father_candidates(roles=['adult', 'grand'])]
         member_form.father_id.choices = father_choices
         return render_template('index.html', form=member_form, rows=get_all_members())
     elif request.method == 'POST':
@@ -81,9 +81,9 @@ def all_members():
 def member_by_id(_id):
     member_form = BaseMemberForm()
     if request.method == 'GET':
-        mother_choices = [(c.id, c.full_name) for c in get_mother_candidates(roles=['adult', 'grand'])]
+        mother_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_mother_candidates(roles=['adult', 'grand'])]
         member_form.mother_id.choices = mother_choices
-        father_choices = [(c.id, c.full_name) for c in get_father_candidates(roles=['adult', 'grand'])]
+        father_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_father_candidates(roles=['adult', 'grand'])]
         member_form.father_id.choices = father_choices
         return render_template('modify_user.html', form=member_form, member=get_member_by_id(_id), getattr=getattr)
     if request.method == 'POST':
