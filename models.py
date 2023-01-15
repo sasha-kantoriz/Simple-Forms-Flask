@@ -1,0 +1,203 @@
+from flask_sqlalchemy import SQLAlchemy
+
+
+db = SQLAlchemy()
+
+
+
+class Member(db.Model):
+    __tablename__ = 'Members'
+    id = db.Column(db.Integer, primary_key=True)
+    role = db.Column(db.String(20))
+    gender = db.Column(db.String(20))
+    full_name = db.Column(db.String(100))
+    date_of_birth = db.Column(db.String(50))
+    place_of_birth = db.Column(db.String(100))
+    complete_address = db.Column(db.String(100))
+    deceased = db.Column(db.Boolean, default=False)
+    #
+    husbands_full_name = db.Column(db.String(100), nullable=True)
+    wifes_full_name = db.Column(db.String(100), nullable=True)
+    inlaws_full_name = db.Column(db.String(100), nullable=True)
+    father_inlaws_full_address = db.Column(db.String(100), nullable=True)
+    #
+    mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    mother = db.relationship('Member', remote_side=[id], backref='mchildren', foreign_keys=[mother_id])
+    father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    father = db.relationship('Member', remote_side=[id], backref='fchildren', foreign_keys=[father_id])
+    #
+    grandmother_by_mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandmother_by_mother = db.relationship('Member', remote_side=[id], backref='mmgrandchildren', foreign_keys=[grandmother_by_mother_id])
+    grandfather_by_mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandfather_by_mother = db.relationship('Member', remote_side=[id], backref='fmgrandchildren', foreign_keys=[grandfather_by_mother_id])
+    grandmother_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandmother_by_father = db.relationship('Member', remote_side=[id], backref='mfgrandchildren', foreign_keys=[grandmother_by_father_id])
+    grandfather_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandfather_by_father = db.relationship('Member', remote_side=[id], backref='ffgrandchildren', foreign_keys=[grandfather_by_father_id])
+
+    def __iter__(self):
+        return iter(
+            [
+                ('id', self.id),
+                ('role', self.role),
+                ('gender', self.gender),
+                ('full_name', self.full_name),
+                ('date_of_birth', self.date_of_birth),
+                ('place_of_birth', self.place_of_birth),
+                ('complete_address', self.complete_address),
+                ('deceased', self.deceased),
+                ('husbands_full_name', self.husbands_full_name),
+                ('wifes_full_name', self.wifes_full_name),
+                ('inlaws_full_name', self.inlaws_full_name),
+                ('father_inlaws_full_address', self.father_inlaws_full_address),
+                # ('mother', dict(self.mother) if self.mother else None),
+                # ('father', dict(self.father) if self.father else None),
+                # ('grandmother_by_mother', dict(self.grandmother_by_mother) if self.grandmother_by_mother else None),
+                # ('grandmother_by_father', dict(self.grandmother_by_father) if self.grandmother_by_father else None),
+                # ('grandfather_by_mother', dict(self.grandfather_by_mother) if self.grandfather_by_mother else None),
+                # ('grandfather_by_father', dict(self.grandfather_by_father) if self.grandfather_by_father else None),
+                # ('mchildren', [dict(child) for child in self.mchildren]),
+                # ('fchildren', [dict(child) for child in self.fchildren]),
+                # ('mmgrandchildren', [dict(child) for child in self.mmgrandchildren]),
+                # ('mfgrandchildren', [dict(child) for child in self.mfgrandchildren]),
+                # ('fmgrandchildren', [dict(child) for child in self.fmgrandchildren]),
+                # ('ffgrandchildren', [dict(child) for child in self.ffgrandchildren])
+            ]
+        )
+
+def add_new_member(role=None, gender=None, full_name=None, \
+                   date_of_birth=None, place_of_birth=None, \
+                   complete_address=None, deceased=None, \
+                   husbands_full_name=None, wifes_full_name=None, \
+                   inlaws_full_name=None, father_inlaws_full_address=None, \
+                   mother_id=None, father_id=None
+    ):
+    new_member = Member(role=role, gender=gender, full_name=full_name, \
+                        date_of_birth=date_of_birth, place_of_birth=place_of_birth, \
+                        complete_address=complete_address, deceased=deceased, \
+                        husbands_full_name=husbands_full_name, wifes_full_name=wifes_full_name, \
+                        inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address, \
+                        mother_id=mother_id, father_id=father_id
+    )
+    db.session.add(new_member)
+    db.session.commit()
+    return new_member
+
+
+def get_all_members():
+    return Member.query.all()
+
+
+def get_member_by_id(_id):
+    member = Member.query.filter_by(id=_id).first()
+    if member:
+        return member
+
+
+def get_mother_candidates(roles):
+    return Member.query.filter(Member.role.in_(roles)).filter_by(gender='female').all()
+
+
+def get_father_candidates(roles):
+    return Member.query.filter(Member.role.in_(roles)).filter_by(gender='male').all()
+
+
+def update_member_by_id(_id, role=None, gender=None, full_name=None, \
+               date_of_birth=None, place_of_birth=None, \
+               complete_address=None, deceased=None, \
+               husbands_full_name=None, wifes_full_name=None, \
+               inlaws_full_name=None, father_inlaws_full_address=None, \
+               mother_id=None, father_id=None, \
+               grandmother_by_mother_id=None, grandmother_by_father_id=None, \
+               grandfather_by_mother_id=None, grandfather_by_father_id=None
+    ):
+    member = Member.query.filter_by(id=_id).first()
+    if role:
+        member.role = role
+    if gender:
+        member.gender = gender
+    if full_name:
+        member.full_name = full_name
+    if date_of_birth:
+        member.date_of_birth = date_of_birth
+    if place_of_birth:
+        member.place_of_birth = place_of_birth
+    if complete_address:
+        member.complete_address = complete_address
+    if deceased:
+        member.deceased = deceased
+    if husbands_full_name:
+        member.husbands_full_name = husbands_full_name
+    if wifes_full_name:
+        member.wifes_full_name = wifes_full_name
+    if inlaws_full_name:
+        member.inlaws_full_name = inlaws_full_name
+    if father_inlaws_full_address:
+        member.father_inlaws_full_address = father_inlaws_full_address
+    if mother_id:
+        member.mother_id = mother_id
+        mother = Member.query.filter_by(id=mother_id).first()
+        if mother:
+            if mother.mother:
+                member.grandmother_by_mother_id = mother.mother.id
+            if mother.father:
+                member.grandfather_by_mother_id = mother.father.id
+    if father_id:
+        member.father_id = father_id
+        father = Member.query.filter_by(id=father_id).first()
+        if father:
+            if father.mother:
+                member.grandmother_by_father_id = father.mother.id
+            if father.father:
+                member.grandfather_by_father_id = father.father.id
+    if grandmother_by_mother_id:
+        member.grandmother_by_mother_id = grandmother_by_mother_id
+    if grandmother_by_father_id:
+        member.grandmother_by_father_id = grandmother_by_father_id
+    if grandfather_by_mother_id:
+        member.grandfather_by_mother_id = grandfather_by_mother_id
+    if grandfather_by_father_id:
+        member.grandfather_by_father_id = grandfather_by_father_id
+    db.session.commit()
+    return member
+
+
+def delete_member(_id):
+    member = Member.query.filter_by(id=_id).first()
+    db.session.delete(member)
+    db.session.commit()
+
+
+def add_child_member(role=None, gender=None, full_name=None, \
+                     date_of_birth=None, place_of_birth=None, \
+                     complete_address=None, deceased=None, \
+                     mother_id=None, father_id=None
+    ):
+    grandmother_by_mother_id = None
+    grandfather_by_mother_id = None
+    grandmother_by_father_id = None
+    grandfather_by_father_id = None
+    mother = Member.query.filter_by(id=mother_id).first()
+    if mother:
+        if mother.mother:
+            grandmother_by_mother_id = mother.mother.id
+        if mother.father:
+            grandfather_by_mother_id = mother.father.id
+    father = Member.query.filter_by(id=father_id).first()
+    if father:
+        if father.mother:
+            grandmother_by_father_id = father.mother.id
+        if father.father:
+            grandfather_by_father_id = father.father.id
+    new_child_member = Member(role=role, gender=gender, full_name=full_name,
+                              date_of_birth=date_of_birth, place_of_birth=place_of_birth,
+                              complete_address=complete_address, deceased=deceased,
+                              mother_id=mother_id, father_id=father_id,
+                              grandmother_by_mother_id=grandmother_by_mother_id,
+                              grandfather_by_mother_id=grandfather_by_mother_id,
+                              grandmother_by_father_id=grandmother_by_father_id,
+                              grandfather_by_father_id=grandfather_by_father_id
+    )
+    db.session.add(new_child_member)
+    db.session.commit()
+    return new_child_member

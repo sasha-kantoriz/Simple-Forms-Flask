@@ -2,90 +2,158 @@ from flask import render_template, request, redirect, abort, url_for
 from flask_login import login_required
 import forms
 
+from models import (
+    get_all_members, get_member_by_id,
+    add_new_member, add_child_member,
+    update_member_by_id, delete_member,
+    get_mother_candidates, get_father_candidates
+)
+from forms import BaseMemberForm
 
-""" 
-Generate the login form (using flask) for the index.html page, where you will 
-enter a new user. The form itself is created in forms.py. 
-The index() route method is called from app.py
-"""
 
 def index():
-    from app import get_all_rows_from_table
-    rows = get_all_rows_from_table()
-    return render_template('index.html', users=rows)
+    return redirect(url_for('all_members'))
 
-""" 
-Retrieve all the rows from the database and return them.
-All the data will be displayed on entire_database.html file.
-The view_database() route method is called from app.py
-"""
-@login_required
-def view_database():
-    from app import get_all_rows_from_table
-    rows = get_all_rows_from_table()
-    return render_template('table.html', rows=rows)
 
-def obtain_user(_id):
-    from app import get_user_by_id, update_user
-    user = get_user_by_id(_id)
-    if not user:
-        return abort(404, 'Not Found')
-    modify_user_form = forms.UserForm()
+def all_members():
+    member_form = BaseMemberForm()
+    if request.method == 'GET':
+        mother_choices = [(c.id, c.full_name) for c in get_mother_candidates(roles=['adult', 'grand'])]
+        member_form.mother_id.choices = mother_choices
+        father_choices = [(c.id, c.full_name) for c in get_father_candidates(roles=['adult', 'grand'])]
+        member_form.father_id.choices = father_choices
+        return render_template('index.html', form=member_form, rows=get_all_members())
+    elif request.method == 'POST':
+        if member_form.role.data == 'child':
+            new_member = add_child_member(role=member_form.role.data, gender=member_form.gender.data,
+                                          full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
+                                          date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
+                                          deceased=member_form.deceased.data,
+                                          mother_id=member_form.mother_id.data, father_id=member_form.father_id.data
+            )
+        elif member_form.role.data == 'adult':
+            if member_form.gender.data == 'male':
+                new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
+                                            full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
+                                            date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
+                                            deceased=member_form.deceased.data,
+                                            mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
+                                            wifes_full_name=member_form.wifes_full_name.data,
+                                            inlaws_full_name=member_form.inlaws_full_name.data,
+                                            father_inlaws_full_address=member_form.father_inlaws_full_address.data
+                )
+            else:
+                new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
+                                            full_name=member_form.full_name.data,
+                                            complete_address=member_form.complete_address.data,
+                                            date_of_birth=member_form.date_of_birth.data,
+                                            place_of_birth=member_form.place_of_birth.data,
+                                            deceased=member_form.deceased.data,
+                                            mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
+                                            husbands_full_name=member_form.husbands_full_name.data,
+                                            inlaws_full_name=member_form.inlaws_full_name.data,
+                                            father_inlaws_full_address=member_form.father_inlaws_full_address.data
+                )
+        else:
+            if member_form.gender.data == 'male':
+                new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
+                                            full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
+                                            date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
+                                            deceased=member_form.deceased.data,
+                                            wifes_full_name=member_form.wifes_full_name.data,
+                                            inlaws_full_name=member_form.inlaws_full_name.data,
+                                            father_inlaws_full_address=member_form.father_inlaws_full_address.data
+                )
+            else:
+                new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
+                                            full_name=member_form.full_name.data,
+                                            complete_address=member_form.complete_address.data,
+                                            date_of_birth=member_form.date_of_birth.data,
+                                            place_of_birth=member_form.place_of_birth.data,
+                                            deceased=member_form.deceased.data,
+                                            husbands_full_name=member_form.husbands_full_name.data,
+                                            inlaws_full_name=member_form.inlaws_full_name.data,
+                                            father_inlaws_full_address=member_form.father_inlaws_full_address.data
+                )
+        return dict(new_member)
+
+
+def member_by_id(_id):
+    member_form = BaseMemberForm()
+    if request.method == 'GET':
+        mother_choices = [(c.id, c.full_name) for c in get_mother_candidates(roles=['adult', 'grand'])]
+        member_form.mother_id.choices = mother_choices
+        father_choices = [(c.id, c.full_name) for c in get_father_candidates(roles=['adult', 'grand'])]
+        member_form.father_id.choices = father_choices
+        return render_template('modify_user.html', form=member_form, member=get_member_by_id(_id), getattr=getattr)
     if request.method == 'POST':
-        update_user(_id, modify_user_form.name.data, modify_user_form.phone.data, modify_user_form.email.data)
-    return render_template('modify_user.html', _id=_id, form=modify_user_form, user=user)
-def obtain_chlidren(parent_id):
-    from app import update_child, get_user_by_id
-    parent = get_user_by_id(parent_id)
-    if not parent:
-        return abort(404, 'Not Found')
-    return render_template('children.html', rows=parent['children'])
+        update_member_by_id(_id=_id, role=member_form.role.data, gender=member_form.gender.data,
+                            full_name=member_form.full_name.data,
+                            complete_address=member_form.complete_address.data,
+                            date_of_birth=member_form.date_of_birth.data,
+                            place_of_birth=member_form.place_of_birth.data,
+                            deceased=member_form.deceased.data,
+                            husbands_full_name=member_form.husbands_full_name.data,
+                            inlaws_full_name=member_form.inlaws_full_name.data,
+                            father_inlaws_full_address=member_form.father_inlaws_full_address.data
+        )
+        return redirect(url_for('all_members'))
 
 
-def obtain_child(_id):
-    from app import update_child, get_child_by_id
-    form = forms.ChildForm()
-    child = get_child_by_id(_id)
-    if not child:
-        return abort(404, 'Not Found')
-    if request.method == 'POST':
-        update_child(_id, form.name.data, form.phone.data, form.email.data)
-    return render_template('modify_child.html', _id=_id, form=form, child=child)
-def modify_database(the_id ,modified_category):
-    if request.method == 'POST':
-        from app import modify_data
-        # Get data from the form on database page
-        user_input = request.form[modified_category]
-        # modify the row from the database
-        modify_data(the_id, modified_category, user_input)
-        # redirect back to the database page
-        return redirect(url_for('index'))
-    return redirect(url_for('index'))
+def delete_member(_id):
+    delete_member(_id)
+    return redirect(url_for('all_members'))
 
-def delete_parent(_id):
-    from app import delete_user
-    # if the checkbox was selected (for deleting entire row)
-    delete_user(_id)
-    return redirect(url_for('index'))
 
-def delete_child(_id):
-    from app import delete_child
-    # if the checkbox was selected (for deleting entire row)
-    delete_child(_id)
-    return redirect(url_for('index'))
+def get_children(_id):
+    from models import get_member_by_id
+    parent = get_member_by_id(_id)
+    children = parent.fchildren if parent.gender == 'male' else parent.mchildren
+    return render_template('relationships.html', rows=children)
 
-def submitted():
-    from app import insert_user_data, insert_child_data
 
-    name = request.form['name']
-    phone = request.form['phone']
-    email = request.form['email']
+def get_parents(_id):
+    from models import get_member_by_id
+    child = get_member_by_id(_id)
+    parents = []
+    if child.mother:
+        parents.append(child.mother)
+    if child.father:
+        parents.append(child.father)
+    return render_template('relationships.html', rows=parents)
 
-    if request.form.get('child'):
-        parent_id = request.form['parent_id']
-        child = insert_child_data(name, phone, email, parent_id)
-        return dict(child)
 
-    # insert data into database
-    user = insert_user_data(name, phone, email)
-    return dict(user)
+def get_grandchildren(_id):
+    from models import get_member_by_id
+    parent = get_member_by_id(_id)
+    grandchildren = []
+    if parent.gender == 'male':
+        for child in parent.fchildren:
+            if child.gender == 'male':
+                grandchildren.extend(child.fchildren)
+            else:
+                grandchildren.extend(child.mchildren)
+    else:
+        for child in parent.mchildren:
+            if child.gender == 'male':
+                grandchildren.extend(child.fchildren)
+            else:
+                grandchildren.extend(child.mchildren)
+    return render_template('relationships.html', rows=grandchildren)
+
+
+def get_grandparents(_id):
+    from models import get_member_by_id
+    grandchild = get_member_by_id(_id)
+    grandparents = []
+    if grandchild.mother:
+        if grandchild.mother.mother:
+            grandparents.append(grandchild.mother.mother)
+        if grandchild.mother.father:
+            grandparents.append(grandchild.mother.father)
+    if grandchild.father:
+        if grandchild.father.mother:
+            grandparents.append(grandchild.father.mother)
+        if grandchild.mother.mother:
+            grandparents.append(grandchild.father.father)
+    return render_template('relationships.html', rows=grandparents)

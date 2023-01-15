@@ -1,26 +1,80 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
 <title>Update Member data</title>
-{% endblock %}
-
-{% block headercss %}
-
 {% endblock %}
 
 {% block content %}
 <div class="form-container">
     <div class="form-wrapper">
-        <form action="{{ url_for('obtain_user', _id=_id) }}" method="post">
+        <form action="{{ url_for('member_by_id', _id=member.id) }}" method="post">
             {{ form.csrf_token() }}
-            {{ form.name(class_="form-control", placeholder=user.name) }}
-            {{ form.phone(class_="form-control", placeholder=user.phone) }}
-            {{ form.email(class_="form-control", placeholder=user.email) }}
+            <div class="form-row">
+                {{ form.role.label }}{{ form.role(class_="form-select") }}
+            </div>
+            <div class="form-row form-row-inline">
+                {{ form.gender.label }}{{ form.gender }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.full_name.label }}</div>
+                {{ form.full_name(class_="form-control", placeholder=member.full_name) }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.date_of_birth.label }}</div>
+                {{ form.date_of_birth(class_="form-control", placeholder=member.date_of_birth) }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.place_of_birth.label }}</div>
+                {{ form.place_of_birth(class_="form-control", placeholder=member.place_of_birth) }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.complete_address.label }}</div>
+                {{ form.complete_address(class_="form-control", placeholder=member.complete_address) }}
+            </div>
+            <div class="form-row form-row-inline">
+                {{ form.deceased.label }}{{ form.deceased(class_="form-check-input") }}
+            </div>
+            <div class="form-row">
+                {{ form.mother_id.label }}{{ form.mother_id(class_="form-select") }}
+            </div>
+            <div class="form-row">
+                {{ form.father_id.label }}{{ form.father_id(class_="form-select") }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.husbands_full_name.label }}</div>
+                {{ form.husbands_full_name(class_="form-control", placeholder=member.husbands_full_name) }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.wifes_full_name.label }}</div>
+                {{ form.wifes_full_name(class_="form-control", placeholder=member.wifes_full_name) }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.inlaws_full_name.label }}</div>
+                {{ form.inlaws_full_name(class_="form-control", placeholder=member.inlaws_full_name) }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.father_inlaws_full_address.label }}</div>
+                {{ form.father_inlaws_full_address(class_="form-control", placeholder=member.father_inlaws_full_address) }}
+            </div>
             <div class="form-buttons" role="group">
                 <button class="btn btn-primary" type="submit">Update</button>
-                <a class="btn btn-primary" href="{{ url_for('delete_parent', _id=_id) }}" type="button">Delete</a>
-                {% if user.children %}
-                <a class="btn btn-primary" href="{{ url_for('obtain_chlidren', parent_id=_id) }}" type="button">Children</a>
+                <a class="btn btn-primary" href="{{ url_for('delete_member', _id=member.id) }}" type="button">Delete</a>
+
+                {% if member.mother or member.father %}
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_parents', _id=member.id) }}">Parents</a>
+                {% endif %}
+
+                {% if member.fchildren or member.mchildren %}
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_children', _id=member.id) }}">Children</a>
+                {% endif %}
+
+                {% if member.mmgrandchildren or member.mfgrandchildren or member.fmgrandchildren or member.ffgrandchildren %}
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandchildren', _id=member.id) }}">Grandchildren</a>
+                {% endif %}
+
+                {% if member.grandmother_by_mother or member.grandfather_by_mother or member.grandmother_by_father or member.grandfather_by_father %}
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandparents', _id=member.id) }}">Grandparents</a>
                 {% endif %}
             </div>
         </form>

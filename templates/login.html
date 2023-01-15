@@ -18,7 +18,7 @@
   <form method="POST" action="{{ url_for('auth.login') }}">
     {{ form.csrf_token }}
     {{ form.password }}
-    <button type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Login</button>
   </form>
 </div>
 </body>

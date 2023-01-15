@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<title>Relationships</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="table-container">
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <td>Full Name</td>
+                    <td>Date of Birth</td>
+                    <td>Place of Birth</td>
+                    <td>Complete Address</td>
+                    <td>Deceased</td>
+                    <td>Husband's/Wife's Full Name</td>
+                    <td>In-laws Full Name</td>
+                    <td>Father In-laws Full Address</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for member in rows %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('member_by_id', _id=member.id) }}">{{ member.full_name }}</a>
+                    </td>
+                    <td>
+                        {{ member.date_of_birth }}
+                    </td>
+                    <td>
+                        {{ member.place_of_birth }}
+                    </td>
+                    <td>
+                        {{ member.complete_address }}
+                    </td>
+                    <td>
+                        {{ member.deceased }}
+                    </td>
+                    <td>
+                        {% if member.gender == 'male' %}
+                        {{ member.wifes_full_name }}
+                        {% else %}
+                        {{ member.husbands_full_name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ member.inlaws_full_name }}
+                    </td>
+                    <td>
+                        {{ member.father_inlaws_full_address }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

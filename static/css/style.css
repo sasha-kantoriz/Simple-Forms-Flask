@@ -24,6 +24,9 @@ Navbar
         display: flex;
         justify-content: space-between;
     }
+    .navbar-nav {
+        justify-content: start;
+    }
 }
 /* -----------------------
 Form
@@ -38,9 +41,37 @@ Form
 }
 .form-wrapper {
     width: 40%;
+    padding: 50px;
 }
-input {
+.form-row {
+    padding: 2px;
+    margin-bottom: 4px;
+}
+.form-row-inline {
+    display: flex;
+    justify-content: space-between;
+}
+.label {
+
+}
+ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+li {
+    display: flex;
+}
+input, textarea {
     margin-bottom: 5px;
+    width: 100%;
+}
+input[type=checkbox] {
+    width: 5%;
+}
+input[type=radio] {
+    width: 100%;
 }
 .form-buttons {
     margin-top: 10px;
@@ -65,8 +96,9 @@ Table
     /*align-items: center;*/
 }
 .table-wrapper {
-    width: 80%;
+    width: 90%;
     padding: 50px;
+    overflow-x: auto;
 }
 .table-header a {
     display: none;
@@ -79,7 +111,7 @@ table {
     margin-top: 25px;
 }
 th, td {
-    width: 25%;
+    width: 10%;
 }
 
 /* ---------------------

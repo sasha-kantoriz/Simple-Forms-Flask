@@ -1,17 +1,33 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField
-from wtforms.fields.html5 import EmailField, TelField # can be accessed under the wtforms.fields.html5 namespace
-
-class UserForm(FlaskForm):
-    name = StringField('Name:', id='name')
-    phone = TelField('Phone Number:', id='phone')
-    email = EmailField('Email:', id='email')
-    job = StringField('Job Title:', id='job')
+from wtforms import StringField, PasswordField, IntegerField, BooleanField, SelectField, RadioField
+from wtforms.widgets import TextArea
 
 
-class ChildForm(UserForm):
-    parent_id = IntegerField()
+class BaseMemberForm(FlaskForm):
+    role = SelectField('Role:', choices=[('grand', 'Grand'), ('adult', 'Adult'), ('child', 'Child')], id='role')
+    gender = RadioField('Gender:', choices=[('male', 'Male'), ('female', 'Female')], id='gender')
+    full_name = StringField('Full Name:', id='full_name')
+    date_of_birth = StringField('Date of Birth:', id='date_of_birth')
+    place_of_birth = StringField('Place of Birth:', id='place_of_birth')
+    complete_address = StringField('Complete Address:', id='complete_address', widget=TextArea())
+    deceased = BooleanField('Deceased:', id='deceased')
+    #
+    mother_id = SelectField('Mother:', id='mother_id')
+    father_id = SelectField('Father:', id='father_id')
+    #
+    husbands_full_name = StringField('Husbands Full Name:', id='husbands_full_name')
+    wifes_full_name = StringField('Wifes Full Name:', id='wifes_full_name')
+    inlaws_full_name = StringField('Inlaws Full Name:', id='inlaws_full_name')
+    father_inlaws_full_address = StringField('Father Inlaws Full Address:', id='father_inlaws_full_address', widget=TextArea())
+
+
+class ChildMemberForm(BaseMemberForm):
+    pass
+
+
+class AdultMemberForm(BaseMemberForm):
+    pass
 
 
 class LoginForm(FlaskForm):
-    password = PasswordField('Password', id='password')
+    password = PasswordField('Password:', id='password')
