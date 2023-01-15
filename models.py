@@ -162,7 +162,7 @@ def update_member_by_id(_id, role=None, gender=None, full_name=None, \
     return member
 
 
-def delete_member(_id):
+def delete_member_by_id(_id):
     member = Member.query.filter_by(id=_id).first()
     db.session.delete(member)
     db.session.commit()

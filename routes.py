@@ -5,7 +5,7 @@ import forms
 from models import (
     get_all_members, get_member_by_id,
     add_new_member, add_child_member,
-    update_member_by_id, delete_member,
+    update_member_by_id, delete_member_by_id,
     get_mother_candidates, get_father_candidates
 )
 from forms import BaseMemberForm
@@ -101,19 +101,17 @@ def member_by_id(_id):
 
 
 def delete_member(_id):
-    delete_member(_id)
+    delete_member_by_id(_id)
     return redirect(url_for('all_members'))
 
 
 def get_children(_id):
-    from models import get_member_by_id
     parent = get_member_by_id(_id)
     children = parent.fchildren if parent.gender == 'male' else parent.mchildren
     return render_template('relationships.html', rows=children)
 
 
 def get_parents(_id):
-    from models import get_member_by_id
     child = get_member_by_id(_id)
     parents = []
     if child.mother:
@@ -124,7 +122,6 @@ def get_parents(_id):
 
 
 def get_grandchildren(_id):
-    from models import get_member_by_id
     parent = get_member_by_id(_id)
     grandchildren = []
     if parent.gender == 'male':
@@ -143,7 +140,6 @@ def get_grandchildren(_id):
 
 
 def get_grandparents(_id):
-    from models import get_member_by_id
     grandchild = get_member_by_id(_id)
     grandparents = []
     if grandchild.mother:
