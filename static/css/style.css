@@ -70,10 +70,6 @@ input:not([type=checkbox]), textarea {
 .form-buttons {
     margin-top: 10px;
 }
-.child-input {
-    border-top: 1px solid gray;
-    padding-top: 5px;
-}
 @media only screen and (max-width: 992px) {
     .form-wrapper {
         width: 80%;
