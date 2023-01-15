@@ -75,7 +75,7 @@ def all_members():
                                             inlaws_full_name=member_form.inlaws_full_name.data,
                                             father_inlaws_full_address=member_form.father_inlaws_full_address.data
                 )
-        return dict(new_member)
+        return redirect(url_for('all_members'))
 
 
 def member_by_id(_id):
