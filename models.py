@@ -34,6 +34,31 @@ class Member(db.Model):
     grandmother_by_father = db.relationship('Member', remote_side=[id], backref='mfgrandchildren', foreign_keys=[grandmother_by_father_id])
     grandfather_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
     grandfather_by_father = db.relationship('Member', remote_side=[id], backref='ffgrandchildren', foreign_keys=[grandfather_by_father_id])
+    #
+    grandmother_by_grandmother_by_mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandmother_by_grandmother_by_mother = db.relationship('Member', remote_side=[id], backref='mmmgrandchildren',
+                                                           foreign_keys=[grandmother_by_grandmother_by_mother_id])
+    grandfather_by_grandmother_by_mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandfather_by_grandmother_by_mother = db.relationship('Member', remote_side=[id], backref='fmmgrandchildren',
+                                                           foreign_keys=[grandfather_by_grandmother_by_mother_id])
+    grandmother_by_grandfather_by_mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandmother_by_grandfather_by_mother = db.relationship('Member', remote_side=[id], backref='mfmgrandchildren',
+                                                           foreign_keys=[grandmother_by_grandfather_by_mother_id])
+    grandfather_by_grandfather_by_mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandfather_by_grandfather_by_mother = db.relationship('Member', remote_side=[id], backref='ffmgrandchildren',
+                                                           foreign_keys=[grandfather_by_grandfather_by_mother_id])
+    grandmother_by_grandmother_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandmother_by_grandmother_by_father = db.relationship('Member', remote_side=[id], backref='mmfgrandchildren',
+                                                           foreign_keys=[grandmother_by_grandmother_by_father_id])
+    grandfather_by_grandmother_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandfather_by_grandmother_by_father = db.relationship('Member', remote_side=[id], backref='fmfgrandchildren',
+                                                           foreign_keys=[grandfather_by_grandmother_by_father_id])
+    grandmother_by_grandfather_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandmother_by_grandfather_by_father = db.relationship('Member', remote_side=[id], backref='mffgrandchildren',
+                                                           foreign_keys=[grandmother_by_grandfather_by_father_id])
+    grandfather_by_grandfather_by_father_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
+    grandfather_by_grandfather_by_father = db.relationship('Member', remote_side=[id], backref='fffgrandchildren',
+                                                           foreign_keys=[grandfather_by_grandfather_by_father_id])
 
     def __iter__(self):
         return iter(
@@ -65,18 +90,19 @@ class Member(db.Model):
             ]
         )
 
-def add_new_member(role=None, gender=None, full_name=None, \
-                   date_of_birth=None, place_of_birth=None, \
-                   complete_address=None, deceased=None, \
-                   husbands_full_name=None, wifes_full_name=None, \
-                   inlaws_full_name=None, father_inlaws_full_address=None, \
+
+def add_new_member(role=None, gender=None, full_name=None,
+                   date_of_birth=None, place_of_birth=None,
+                   complete_address=None, deceased=None,
+                   husbands_full_name=None, wifes_full_name=None,
+                   inlaws_full_name=None, father_inlaws_full_address=None,
                    mother_id=None, father_id=None
     ):
-    new_member = Member(role=role, gender=gender, full_name=full_name, \
-                        date_of_birth=date_of_birth, place_of_birth=place_of_birth, \
-                        complete_address=complete_address, deceased=deceased, \
-                        husbands_full_name=husbands_full_name, wifes_full_name=wifes_full_name, \
-                        inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address, \
+    new_member = Member(role=role, gender=gender, full_name=full_name,
+                        date_of_birth=date_of_birth, place_of_birth=place_of_birth,
+                        complete_address=complete_address, deceased=deceased,
+                        husbands_full_name=husbands_full_name, wifes_full_name=wifes_full_name,
+                        inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address,
                         mother_id=mother_id, father_id=father_id
     )
     db.session.add(new_member)
@@ -102,14 +128,18 @@ def get_father_candidates(roles):
     return Member.query.filter(Member.role.in_(roles)).filter_by(gender='male').all()
 
 
-def update_member_by_id(_id, role=None, gender=None, full_name=None, \
-               date_of_birth=None, place_of_birth=None, \
-               complete_address=None, deceased=None, \
-               husbands_full_name=None, wifes_full_name=None, \
-               inlaws_full_name=None, father_inlaws_full_address=None, \
-               mother_id=None, father_id=None, \
-               grandmother_by_mother_id=None, grandmother_by_father_id=None, \
-               grandfather_by_mother_id=None, grandfather_by_father_id=None
+def update_member_by_id(_id, role=None, gender=None, full_name=None,
+                        date_of_birth=None, place_of_birth=None,
+                        complete_address=None, deceased=None,
+                        husbands_full_name=None, wifes_full_name=None,
+                        inlaws_full_name=None, father_inlaws_full_address=None,
+                        mother_id=None, father_id=None,
+                        grandmother_by_mother_id=None, grandmother_by_father_id=None,
+                        grandfather_by_mother_id=None, grandfather_by_father_id=None,
+                        grandmother_by_grandmother_by_mother_id=None, grandfather_by_grandmother_by_mother_id=None,
+                        grandmother_by_grandfather_by_mother_id=None, grandfather_by_grandfather_by_mother_id=None,
+                        grandmother_by_grandmother_by_father_id=None, grandfather_by_grandmother_by_father_id=None,
+                        grandmother_by_grandfather_by_father_id=None, grandfather_by_grandfather_by_father_id=None
     ):
     member = Member.query.filter_by(id=_id).first()
     if role:
@@ -135,21 +165,42 @@ def update_member_by_id(_id, role=None, gender=None, full_name=None, \
     if father_inlaws_full_address:
         member.father_inlaws_full_address = father_inlaws_full_address
     if mother_id:
-        member.mother_id = mother_id
         mother = Member.query.filter_by(id=mother_id).first()
         if mother:
+            member.mother_id = mother_id
             if mother.mother:
                 member.grandmother_by_mother_id = mother.mother.id
+                # by mother grandmother
+                if mother.mother.mother:
+                    member.grandmother_by_grandmother_by_mother_id = mother.mother.mother.id
+                if mother.mother.father:
+                    member.grandfather_by_grandmother_by_mother_id = mother.mother.father.id
             if mother.father:
                 member.grandfather_by_mother_id = mother.father.id
+                # by mother grandfather
+                if mother.father.mother:
+                    member.grandmother_by_grandfather_by_mother_id = mother.father.mother.id
+                if mother.father.father:
+                    member.grandfather_by_grandfather_by_mother_id = mother.father.father.id
     if father_id:
-        member.father_id = father_id
         father = Member.query.filter_by(id=father_id).first()
         if father:
+            member.father_id = father_id
             if father.mother:
                 member.grandmother_by_father_id = father.mother.id
+                # by father grandmother
+                if father.mother.mother:
+                    member.grandmother_by_grandmother_by_father_id = father.mother.mother.id
+                if mother.mother.father:
+                    member.grandfather_by_grandmother_by_father_id = father.mother.father.id
             if father.father:
                 member.grandfather_by_father_id = father.father.id
+                # by father grandfather
+                if mother.father.mother:
+                    member.grandmother_by_grandfather_by_father_id = father.father.mother.id
+                if mother.father.father:
+                    member.grandfather_by_grandfather_by_father_id = father.father.father.id
+    #
     if grandmother_by_mother_id:
         member.grandmother_by_mother_id = grandmother_by_mother_id
     if grandmother_by_father_id:
@@ -158,6 +209,23 @@ def update_member_by_id(_id, role=None, gender=None, full_name=None, \
         member.grandfather_by_mother_id = grandfather_by_mother_id
     if grandfather_by_father_id:
         member.grandfather_by_father_id = grandfather_by_father_id
+    #
+    if grandmother_by_grandmother_by_mother_id:
+        member.grandmother_by_grandmother_by_mother_id = grandmother_by_grandmother_by_mother_id
+    if grandfather_by_grandmother_by_mother_id:
+        member.grandfather_by_grandmother_by_mother_id = grandfather_by_grandmother_by_mother_id
+    if grandmother_by_grandfather_by_mother_id:
+        member.grandmother_by_grandfather_by_mother_id = grandmother_by_grandfather_by_mother_id
+    if grandfather_by_grandfather_by_mother_id:
+        member.grandfather_by_grandfather_by_mother_id = grandfather_by_grandfather_by_mother_id
+    if grandmother_by_grandmother_by_father_id:
+        member.grandmother_by_grandmother_by_father_id = grandmother_by_grandmother_by_father_id
+    if grandfather_by_grandmother_by_father_id:
+        member.grandfather_by_grandmother_by_father_id = grandfather_by_grandmother_by_father_id
+    if grandmother_by_grandfather_by_father_id:
+        member.grandmother_by_grandfather_by_father_id = grandmother_by_grandfather_by_father_id
+    if grandfather_by_grandfather_by_father_id:
+        member.grandfather_by_grandfather_by_father_id = grandfather_by_grandfather_by_father_id
     db.session.commit()
     return member
 
@@ -168,9 +236,11 @@ def delete_member_by_id(_id):
     db.session.commit()
 
 
-def add_child_member(role=None, gender=None, full_name=None, \
-                     date_of_birth=None, place_of_birth=None, \
-                     complete_address=None, deceased=None, \
+def add_child_member(role=None, gender=None, full_name=None,
+                     date_of_birth=None, place_of_birth=None,
+                     complete_address=None, deceased=None,
+                     husbands_full_name=None, wifes_full_name=None,
+                     inlaws_full_name=None, father_inlaws_full_address=None,
                      mother_id=None, father_id=None
     ):
     grandmother_by_mother_id = None
@@ -192,12 +262,88 @@ def add_child_member(role=None, gender=None, full_name=None, \
     new_child_member = Member(role=role, gender=gender, full_name=full_name,
                               date_of_birth=date_of_birth, place_of_birth=place_of_birth,
                               complete_address=complete_address, deceased=deceased,
+                              husbands_full_name=husbands_full_name, wifes_full_name=wifes_full_name,
+                              inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address,
                               mother_id=mother_id, father_id=father_id,
                               grandmother_by_mother_id=grandmother_by_mother_id,
                               grandfather_by_mother_id=grandfather_by_mother_id,
                               grandmother_by_father_id=grandmother_by_father_id,
                               grandfather_by_father_id=grandfather_by_father_id
     )
+    db.session.add(new_child_member)
+    db.session.commit()
+    return new_child_member
+
+
+def add_grandchild_member(role=None, gender=None, full_name=None,
+                          date_of_birth=None, place_of_birth=None,
+                          complete_address=None, deceased=None,
+                          mother_id=None, father_id=None
+    ):
+    #
+    grandmother_by_mother_id = None
+    grandfather_by_mother_id = None
+    grandmother_by_father_id = None
+    grandfather_by_father_id = None
+    #
+    grandmother_by_grandmother_by_mother_id = None
+    grandfather_by_grandmother_by_mother_id = None
+    grandmother_by_grandfather_by_mother_id = None
+    grandfather_by_grandfather_by_mother_id = None
+    grandmother_by_grandmother_by_father_id = None
+    grandfather_by_grandmother_by_father_id = None
+    grandmother_by_grandfather_by_father_id = None
+    grandfather_by_grandfather_by_father_id = None
+    #
+    mother = Member.query.filter_by(id=mother_id).first()
+    if mother:
+        if mother.mother:
+            grandmother_by_mother_id = mother.mother.id
+            #
+            if mother.mother.mother:
+                grandmother_by_grandmother_by_mother_id = mother.mother.mother.id
+            if mother.mother.father:
+                grandfather_by_grandmother_by_mother_id = mother.mother.father.id
+        if mother.father:
+            grandfather_by_mother_id = mother.father.id
+            #
+            if mother.father.mother:
+                grandmother_by_grandfather_by_mother_id = mother.father.mother.id
+            if mother.father.father:
+                grandfather_by_grandfather_by_mother_id = mother.father.father.id
+    father = Member.query.filter_by(id=father_id).first()
+    if father:
+        if father.mother:
+            grandmother_by_father_id = father.mother.id
+            #
+            if father.mother.mother:
+                grandmother_by_grandmother_by_father_id = father.mother.mother.id
+            if father.mother.father:
+                grandfather_by_grandmother_by_father_id = father.mother.father.id
+        if father.father:
+            grandfather_by_father_id = father.father.id
+            #
+            if father.father.mother:
+                grandmother_by_grandfather_by_father_id = father.father.mother.id
+            if father.father.father:
+                grandfather_by_grandfather_by_father_id = father.father.father.id
+    new_child_member = Member(role=role, gender=gender, full_name=full_name,
+                              date_of_birth=date_of_birth, place_of_birth=place_of_birth,
+                              complete_address=complete_address, deceased=deceased,
+                              mother_id=mother_id, father_id=father_id,
+                              grandmother_by_mother_id=grandmother_by_mother_id,
+                              grandfather_by_mother_id=grandfather_by_mother_id,
+                              grandmother_by_father_id=grandmother_by_father_id,
+                              grandfather_by_father_id=grandfather_by_father_id,
+                              grandmother_by_grandmother_by_mother_id=grandmother_by_grandmother_by_mother_id,
+                              grandfather_by_grandmother_by_mother_id=grandfather_by_grandmother_by_mother_id,
+                              grandmother_by_grandfather_by_mother_id=grandmother_by_grandfather_by_mother_id,
+                              grandfather_by_grandfather_by_mother_id=grandfather_by_grandfather_by_mother_id,
+                              grandmother_by_grandmother_by_father_id=grandmother_by_grandmother_by_father_id,
+                              grandfather_by_grandmother_by_father_id=grandfather_by_grandmother_by_father_id,
+                              grandmother_by_grandfather_by_father_id=grandmother_by_grandfather_by_father_id,
+                              grandfather_by_grandfather_by_father_id=grandfather_by_grandfather_by_father_id
+                              )
     db.session.add(new_child_member)
     db.session.commit()
     return new_child_member

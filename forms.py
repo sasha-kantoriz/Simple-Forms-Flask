@@ -4,7 +4,7 @@ from wtforms.widgets import TextArea
 
 
 class BaseMemberForm(FlaskForm):
-    role = SelectField('Role:', choices=[('grand', 'Grand'), ('adult', 'Adult'), ('child', 'Child')], id='role')
+    role = SelectField('Role:', choices=[('grand', 'Grand'), ('adult', 'Adult'), ('child', 'Child'), ('grandchild', 'Grandchild')], id='role')
     gender = RadioField('Gender:', choices=[('male', 'Male'), ('female', 'Female')], id='gender')
     full_name = StringField('Full Name:', id='full_name')
     date_of_birth = StringField('Date of Birth:', id='date_of_birth')
