@@ -22,7 +22,7 @@
             </div>
             <div class="form-row">
                 <div class="label">{{ form.date_of_birth.label }}</div>
-                {{ form.date_of_birth(class_="form-control", placeholder=member.date_of_birth) }}
+                {{ form.date_of_birth(class_="form-control") }}
             </div>
             <div class="form-row">
                 <div class="label">{{ form.place_of_birth.label }}</div>
@@ -75,6 +75,14 @@
 
                 {% if member.grandmother_by_mother or member.grandfather_by_mother or member.grandmother_by_father or member.grandfather_by_father %}
                 <a class="btn btn-primary" type="button" href="{{ url_for('get_grandparents', _id=member.id) }}">Grandparents</a>
+                {% endif %}
+
+                {% if member.mmmgrandchildren or member.fmmgrandchildren or member.mfmgrandchildren or member.ffmgrandchildren or member.mmfgrandchildren or member.fmfgrandchildren or member.mffgrandchildren or member.fffgrandchildren %}
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandgrand_children', _id=member.id) }}">Grandgrandchildren</a>
+                {% endif %}
+
+                {% if member.grandmother_by_grandmother_by_mother or member.grandfather_by_grandmother_by_mother or member.grandmother_by_grandfather_by_mother or member.grandfather_by_grandfather_by_mother or member.grandmother_by_grandmother_by_father or member.grandfather_by_grandmother_by_father or member.grandmother_by_grandfather_by_father or member.grandfather_by_grandfather_by_father %}
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandgrand_parents', _id=member.id) }}">Grandgrandparents</a>
                 {% endif %}
             </div>
         </form>
