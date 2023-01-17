@@ -82,7 +82,7 @@
                 {% endif %}
 
                 {% if member.grandmother_by_grandmother_by_mother or member.grandfather_by_grandmother_by_mother or member.grandmother_by_grandfather_by_mother or member.grandfather_by_grandfather_by_mother or member.grandmother_by_grandmother_by_father or member.grandfather_by_grandmother_by_father or member.grandmother_by_grandfather_by_father or member.grandfather_by_grandfather_by_father %}
-                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandgrand_parents', _id=member.id) }}">Grandgrandparents</a>
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandgrand_parents', _id=member.id) }}">Buyut</a>
                 {% endif %}
             </div>
         </form>
