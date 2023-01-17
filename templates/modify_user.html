@@ -42,12 +42,16 @@
                 {{ form.father_id.label }}{{ form.father_id(class_="form-select") }}
             </div>
             <div class="form-row">
-                <div class="label">{{ form.husbands_full_name.label }}</div>
-                {{ form.husbands_full_name(class_="form-control", placeholder=member.husbands_full_name) }}
+                <div class="label">{{ form.spouse_full_name.label }}</div>
+                {{ form.spouse_full_name(class_="form-control") }}
             </div>
             <div class="form-row">
-                <div class="label">{{ form.wifes_full_name.label }}</div>
-                {{ form.wifes_full_name(class_="form-control", placeholder=member.wifes_full_name) }}
+                <div class="label">{{ form.spouse_date_of_birth.label }}</div>
+                {{ form.spouse_date_of_birth(class_="form-control") }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.spouse_place_of_birth.label }}</div>
+                {{ form.spouse_place_of_birth(class_="form-control") }}
             </div>
             <div class="form-row">
                 <div class="label">{{ form.inlaws_full_name.label }}</div>
@@ -56,6 +60,9 @@
             <div class="form-row">
                 <div class="label">{{ form.father_inlaws_full_address.label }}</div>
                 {{ form.father_inlaws_full_address(class_="form-control", placeholder=member.father_inlaws_full_address) }}
+            </div>
+            <div class="form-row form-row-inline">
+                {{ form.father_inlaws_deceased.label }}{{ form.father_inlaws_deceased(class_="form-check-input") }}
             </div>
             <div class="form-buttons" role="group">
                 <button class="btn btn-primary" type="submit">Submit</button>

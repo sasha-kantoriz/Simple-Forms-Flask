@@ -12,14 +12,16 @@ class Member(db.Model):
     gender = db.Column(db.String(20))
     full_name = db.Column(db.String(100))
     date_of_birth = db.Column(db.String(50))
-    place_of_birth = db.Column(db.String(100))
-    complete_address = db.Column(db.String(100))
+    place_of_birth = db.Column(db.String(1000))
+    complete_address = db.Column(db.String(1000))
     deceased = db.Column(db.Boolean, default=False)
     #
-    husbands_full_name = db.Column(db.String(100), nullable=True)
-    wifes_full_name = db.Column(db.String(100), nullable=True)
-    inlaws_full_name = db.Column(db.String(100), nullable=True)
-    father_inlaws_full_address = db.Column(db.String(100), nullable=True)
+    spouse_full_name = db.Column(db.String(1000), nullable=True)
+    spouse_date_of_birth = db.Column(db.String(50), nullable=True)
+    spouse_place_of_birth = db.Column(db.String(1000), nullable=True)
+    inlaws_full_name = db.Column(db.String(1000), nullable=True)
+    father_inlaws_deceased = db.Column(db.Boolean, default=False)
+    father_inlaws_full_address = db.Column(db.String(1000), nullable=True)
     #
     mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
     mother = db.relationship('Member', remote_side=[id], backref='mchildren', foreign_keys=[mother_id])
@@ -94,15 +96,15 @@ class Member(db.Model):
 def add_new_member(role=None, gender=None, full_name=None,
                    date_of_birth=None, place_of_birth=None,
                    complete_address=None, deceased=None,
-                   husbands_full_name=None, wifes_full_name=None,
-                   inlaws_full_name=None, father_inlaws_full_address=None,
+                   spouse_full_name=None, spouse_date_of_birth=None, spouse_place_of_birth=None,
+                   inlaws_full_name=None, father_inlaws_full_address=None, father_inlaws_deceased=None,
                    mother_id=None, father_id=None
     ):
     new_member = Member(role=role, gender=gender, full_name=full_name,
                         date_of_birth=date_of_birth, place_of_birth=place_of_birth,
                         complete_address=complete_address, deceased=deceased,
-                        husbands_full_name=husbands_full_name, wifes_full_name=wifes_full_name,
-                        inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address,
+                        spouse_full_name=spouse_full_name, spouse_date_of_birth=spouse_date_of_birth, spouse_place_of_birth=spouse_place_of_birth,
+                        inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address, father_inlaws_deceased=father_inlaws_deceased,
                         mother_id=mother_id, father_id=father_id
     )
     db.session.add(new_member)
@@ -131,8 +133,8 @@ def get_father_candidates(roles):
 def update_member_by_id(_id, role=None, gender=None, full_name=None,
                         date_of_birth=None, place_of_birth=None,
                         complete_address=None, deceased=None,
-                        husbands_full_name=None, wifes_full_name=None,
-                        inlaws_full_name=None, father_inlaws_full_address=None,
+                        spouse_full_name=None, spouse_date_of_birth=None, spouse_place_of_birth=None,
+                        inlaws_full_name=None, father_inlaws_full_address=None, father_inlaws_deceased=None,
                         mother_id=None, father_id=None,
                         grandmother_by_mother_id=None, grandmother_by_father_id=None,
                         grandfather_by_mother_id=None, grandfather_by_father_id=None,
@@ -156,14 +158,18 @@ def update_member_by_id(_id, role=None, gender=None, full_name=None,
         member.complete_address = complete_address
     if deceased:
         member.deceased = deceased
-    if husbands_full_name:
-        member.husbands_full_name = husbands_full_name
-    if wifes_full_name:
-        member.wifes_full_name = wifes_full_name
+    if spouse_full_name:
+        member.spouse_full_name = spouse_full_name
+    if spouse_date_of_birth:
+        member.spouse_full_name = spouse_full_name
+    if spouse_place_of_birth:
+        member.spouse_place_of_birth = spouse_place_of_birth
     if inlaws_full_name:
         member.inlaws_full_name = inlaws_full_name
     if father_inlaws_full_address:
         member.father_inlaws_full_address = father_inlaws_full_address
+    if father_inlaws_deceased:
+        member.father_inlaws_deceased = father_inlaws_deceased
     if mother_id:
         mother = Member.query.filter_by(id=mother_id).first()
         if mother:
@@ -239,8 +245,8 @@ def delete_member_by_id(_id):
 def add_child_member(role=None, gender=None, full_name=None,
                      date_of_birth=None, place_of_birth=None,
                      complete_address=None, deceased=None,
-                     husbands_full_name=None, wifes_full_name=None,
-                     inlaws_full_name=None, father_inlaws_full_address=None,
+                     spouse_full_name=None, spouse_date_of_birth=None, spouse_place_of_birth=None,
+                     inlaws_full_name=None, father_inlaws_full_address=None, father_inlaws_deceased=None,
                      mother_id=None, father_id=None
     ):
     grandmother_by_mother_id = None
@@ -262,8 +268,8 @@ def add_child_member(role=None, gender=None, full_name=None,
     new_child_member = Member(role=role, gender=gender, full_name=full_name,
                               date_of_birth=date_of_birth, place_of_birth=place_of_birth,
                               complete_address=complete_address, deceased=deceased,
-                              husbands_full_name=husbands_full_name, wifes_full_name=wifes_full_name,
-                              inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address,
+                              spouse_full_name=spouse_full_name, spouse_date_of_birth=spouse_date_of_birth, spouse_place_of_birth=spouse_place_of_birth,
+                              inlaws_full_name=inlaws_full_name, father_inlaws_full_address=father_inlaws_full_address, father_inlaws_deceased=father_inlaws_deceased,
                               mother_id=mother_id, father_id=father_id,
                               grandmother_by_mother_id=grandmother_by_mother_id,
                               grandfather_by_mother_id=grandfather_by_mother_id,

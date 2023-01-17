@@ -42,12 +42,16 @@
                 {{ form.father_id.label }}{{ form.father_id(class_="form-select") }}
             </div>
             <div class="form-row">
-                <div class="label">{{ form.husbands_full_name.label }}</div>
-                {{ form.husbands_full_name(class_="form-control") }}
+                <div class="label">{{ form.spouse_full_name.label }}</div>
+                {{ form.spouse_full_name(class_="form-control") }}
             </div>
             <div class="form-row">
-                <div class="label">{{ form.wifes_full_name.label }}</div>
-                {{ form.wifes_full_name(class_="form-control") }}
+                <div class="label">{{ form.spouse_date_of_birth.label }}</div>
+                {{ form.spouse_date_of_birth(class_="form-control") }}
+            </div>
+            <div class="form-row">
+                <div class="label">{{ form.spouse_place_of_birth.label }}</div>
+                {{ form.spouse_place_of_birth(class_="form-control") }}
             </div>
             <div class="form-row">
                 <div class="label">{{ form.inlaws_full_name.label }}</div>
@@ -56,6 +60,9 @@
             <div class="form-row">
                 <div class="label">{{ form.father_inlaws_full_address.label }}</div>
                 {{ form.father_inlaws_full_address(class_="form-control") }}
+            </div>
+            <div class="form-row form-row-inline">
+                {{ form.father_inlaws_deceased.label }}{{ form.father_inlaws_deceased(class_="form-check-input") }}
             </div>
             <button class="btn btn-primary" type="submit">Submit</button>
         </form>
@@ -73,8 +80,11 @@
                     <td>Alamat Lengkap</td>
                     <td>Almarhum</td>
                     <td>Nama lengkap Suami/Istri</td>
+                    <td>Tanggal Lahir Suami/Istri</td>
+                    <td>Tempat Lahir Suami/Istri</td>
                     <td>Nama lengkap Mertua</td>
                     <td>Alamat lengkap Mertua</td>
+                    <td>Almarhum Mertua</td>
                 </tr>
             </thead>
             <tbody>
@@ -96,17 +106,22 @@
                         {{ member.deceased }}
                     </td>
                     <td>
-                        {% if member.gender == 'male' %}
-                        {{ member.wifes_full_name }}
-                        {% else %}
-                        {{ member.husbands_full_name }}
-                        {% endif %}
+                        {{ member.spouse_full_name }}
+                    </td>
+                    <td>
+                        {{ member.spouse_date_of_birth }}
+                    </td>
+                    <td>
+                        {{ member.spouse_place_of_birth }}
                     </td>
                     <td>
                         {{ member.inlaws_full_name }}
                     </td>
                     <td>
                         {{ member.father_inlaws_full_address }}
+                    </td>
+                    <td>
+                        {{ member.father_inlaws_deceased }}
                     </td>
                 </tr>
             {% endfor %}

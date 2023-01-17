@@ -34,51 +34,31 @@ def all_members():
                                                mother_id=member_form.mother_id.data, father_id=member_form.father_id.data
             )
         elif member_form.role.data == 'child':
-            if member_form.gender.data == 'male':
-                new_member = add_child_member(role=member_form.role.data, gender=member_form.gender.data,
-                                              full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
-                                              date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
-                                              deceased=member_form.deceased.data,
-                                              mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
-                                              wifes_full_name=member_form.wifes_full_name.data,
-                                              inlaws_full_name=member_form.inlaws_full_name.data,
-                                              father_inlaws_full_address=member_form.father_inlaws_full_address.data
-                )
-            else:
-                new_member = add_child_member(role=member_form.role.data, gender=member_form.gender.data,
-                                              full_name=member_form.full_name.data,
-                                              complete_address=member_form.complete_address.data,
-                                              date_of_birth=member_form.date_of_birth.data,
-                                              place_of_birth=member_form.place_of_birth.data,
-                                              deceased=member_form.deceased.data,
-                                              mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
-                                              husbands_full_name=member_form.husbands_full_name.data,
-                                              inlaws_full_name=member_form.inlaws_full_name.data,
-                                              father_inlaws_full_address=member_form.father_inlaws_full_address.data
-                )
+            new_member = add_child_member(role=member_form.role.data, gender=member_form.gender.data,
+                                          full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
+                                          date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
+                                          deceased=member_form.deceased.data,
+                                          mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
+                                          spouse_full_name=member_form.spouse_full_name.data,
+                                          spouse_date_of_birth=member_form.spouse_date_of_birth.data,
+                                          spouse_place_of_birth=member_form.spouse_place_of_birth.data,
+                                          inlaws_full_name=member_form.inlaws_full_name.data,
+                                          father_inlaws_full_address=member_form.father_inlaws_full_address.data,
+                                          father_inlaws_deceased=member_form.father_inlaws_deceased.data
+            )
         else:
-            if member_form.gender.data == 'male':
-                new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
-                                            full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
-                                            date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
-                                            deceased=member_form.deceased.data,
-                                            wifes_full_name=member_form.wifes_full_name.data,
-                                            inlaws_full_name=member_form.inlaws_full_name.data,
-                                            father_inlaws_full_address=member_form.father_inlaws_full_address.data,
-                                            mother_id = member_form.mother_id.data, father_id = member_form.father_id.data,
-                )
-            else:
-                new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
-                                            full_name=member_form.full_name.data,
-                                            complete_address=member_form.complete_address.data,
-                                            date_of_birth=member_form.date_of_birth.data,
-                                            place_of_birth=member_form.place_of_birth.data,
-                                            deceased=member_form.deceased.data,
-                                            husbands_full_name=member_form.husbands_full_name.data,
-                                            inlaws_full_name=member_form.inlaws_full_name.data,
-                                            father_inlaws_full_address=member_form.father_inlaws_full_address.data,
-                                            mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
-                )
+            new_member = add_new_member(role=member_form.role.data, gender=member_form.gender.data,
+                                        full_name=member_form.full_name.data, complete_address=member_form.complete_address.data,
+                                        date_of_birth=member_form.date_of_birth.data, place_of_birth=member_form.place_of_birth.data,
+                                        deceased=member_form.deceased.data,
+                                        spouse_full_name=member_form.spouse_full_name.data,
+                                        spouse_date_of_birth=member_form.spouse_date_of_birth.data,
+                                        spouse_place_of_birth=member_form.spouse_place_of_birth.data,
+                                        inlaws_full_name=member_form.inlaws_full_name.data,
+                                        father_inlaws_full_address=member_form.father_inlaws_full_address.data,
+                                        father_inlaws_deceased=member_form.father_inlaws_deceased.data,
+                                        mother_id=member_form.mother_id.data, father_id=member_form.father_id.data,
+            )
         return redirect(url_for('all_members'))
 
 
@@ -97,10 +77,12 @@ def member_by_id(_id):
                             date_of_birth=member_form.date_of_birth.data,
                             place_of_birth=member_form.place_of_birth.data,
                             deceased=member_form.deceased.data,
-                            husbands_full_name=member_form.husbands_full_name.data,
-                            wifes_full_name=member_form.wifes_full_name.data,
+                            spouse_full_name=member_form.spouse_full_name.data,
+                            spouse_date_of_birth=member_form.spouse_date_of_birth.data,
+                            spouse_place_of_birth=member_form.spouse_place_of_birth.data,
                             inlaws_full_name=member_form.inlaws_full_name.data,
-                            father_inlaws_full_address=member_form.father_inlaws_full_address.data
+                            father_inlaws_full_address=member_form.father_inlaws_full_address.data,
+                            father_inlaws_deceased=member_form.father_inlaws_deceased.data
         )
         return redirect(url_for('all_members'))
 
