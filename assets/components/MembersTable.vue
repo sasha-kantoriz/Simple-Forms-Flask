@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="member in members">
-                        <td>{{ member.full_name }}</td>
+                        <td><router-link :to="{ name: 'user', params: { id: member.id } }">{{ member.full_name }}</router-link></td>
                         <td>{{ member.date_of_birth }}</td>
                         <td>{{ member.place_of_birth }}</td>
                         <td>{{ member.complete_address }}</td>
@@ -38,18 +38,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-    data() {
-        return {
-            members: [],
-        }
-    },
-    mounted() {
-        axios.get('/members').then((response) => {
-            this.members = response.data.members;
-        });
+    props: {
+        members: Array,
     }
 }
 </script>

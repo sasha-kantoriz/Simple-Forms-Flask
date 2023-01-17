@@ -68,11 +68,12 @@ def all_members():
 def member_by_id(_id):
     member_form = BaseMemberForm()
     if request.method == 'GET':
-        mother_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_mother_candidates(roles=['child', 'adult', 'grand'])]
-        member_form.mother_id.choices = mother_choices
-        father_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_father_candidates(roles=['child', 'adult', 'grand'])]
-        member_form.father_id.choices = father_choices
-        return render_template('modify_user.html', form=member_form, member=get_member_by_id(_id), getattr=getattr)
+        # mother_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_mother_candidates(roles=['child', 'adult', 'grand'])]
+        # member_form.mother_id.choices = mother_choices
+        # father_choices = [(None, 'None')] + [(c.id, c.full_name) for c in get_father_candidates(roles=['child', 'adult', 'grand'])]
+        # member_form.father_id.choices = father_choices
+        # return render_template('modify_user.html', form=member_form, member=get_member_by_id(_id), getattr=getattr)
+        return dict(get_member_by_id(_id))
     if request.method == 'POST':
         update_member_by_id(_id=_id, role=member_form.role.data, gender=member_form.gender.data,
                             full_name=member_form.full_name.data,

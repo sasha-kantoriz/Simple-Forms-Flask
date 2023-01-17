@@ -20,7 +20,7 @@ class Member(db.Model):
     spouse_date_of_birth = db.Column(db.String(50), nullable=True)
     spouse_place_of_birth = db.Column(db.String(1000), nullable=True)
     inlaws_full_name = db.Column(db.String(1000), nullable=True)
-    father_inlaws_deceased = db.Column(db.Boolean, default=False)
+    father_inlaws_deceased = db.Column(db.Boolean, nullable=True)
     father_inlaws_full_address = db.Column(db.String(1000), nullable=True)
     #
     mother_id = db.Column(db.Integer, db.ForeignKey('Members.id'), nullable=True)
