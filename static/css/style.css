@@ -22,7 +22,7 @@ Navbar
 @media only screen and (min-width: 992px) {
     #navbarNav {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
     }
     .navbar-nav {
         justify-content: start;
