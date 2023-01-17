@@ -58,27 +58,27 @@
                 {{ form.father_inlaws_full_address(class_="form-control", placeholder=member.father_inlaws_full_address) }}
             </div>
             <div class="form-buttons" role="group">
-                <button class="btn btn-primary" type="submit">Update</button>
-                <a class="btn btn-primary" href="{{ url_for('delete_member', _id=member.id) }}" type="button">Delete</a>
+                <button class="btn btn-primary" type="submit">Menyerahkan</button>
+                <a class="btn btn-primary" href="{{ url_for('delete_member', _id=member.id) }}" type="button">Menghapus</a>
 
                 {% if member.mother or member.father %}
-                <a class="btn btn-primary" type="button" href="{{ url_for('get_parents', _id=member.id) }}">Parents</a>
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_parents', _id=member.id) }}">Orangtua</a>
                 {% endif %}
 
                 {% if member.fchildren or member.mchildren %}
-                <a class="btn btn-primary" type="button" href="{{ url_for('get_children', _id=member.id) }}">Children</a>
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_children', _id=member.id) }}">Anak-anak</a>
                 {% endif %}
 
                 {% if member.mmgrandchildren or member.mfgrandchildren or member.fmgrandchildren or member.ffgrandchildren %}
-                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandchildren', _id=member.id) }}">Grandchildren</a>
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandchildren', _id=member.id) }}">Cucu</a>
                 {% endif %}
 
                 {% if member.grandmother_by_mother or member.grandfather_by_mother or member.grandmother_by_father or member.grandfather_by_father %}
-                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandparents', _id=member.id) }}">Grandparents</a>
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandparents', _id=member.id) }}">Kakek-nenek</a>
                 {% endif %}
 
                 {% if member.mmmgrandchildren or member.fmmgrandchildren or member.mfmgrandchildren or member.ffmgrandchildren or member.mmfgrandchildren or member.fmfgrandchildren or member.mffgrandchildren or member.fffgrandchildren %}
-                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandgrand_children', _id=member.id) }}">Grandgrandchildren</a>
+                <a class="btn btn-primary" type="button" href="{{ url_for('get_grandgrand_children', _id=member.id) }}">Cicit</a>
                 {% endif %}
 
                 {% if member.grandmother_by_grandmother_by_mother or member.grandfather_by_grandmother_by_mother or member.grandmother_by_grandfather_by_mother or member.grandfather_by_grandfather_by_mother or member.grandmother_by_grandmother_by_father or member.grandfather_by_grandmother_by_father or member.grandmother_by_grandfather_by_father or member.grandfather_by_grandfather_by_father %}
