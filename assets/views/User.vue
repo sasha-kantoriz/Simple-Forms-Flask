@@ -1,7 +1,7 @@
 <template>
     <div class="form-container">
         <div class="form-wrapper">
-            <form @submit.prevent="updateMember">
+            <form>
                 <div class="form-row">
                     <label for="role">Peran:</label>
                     <select id="role" class="form-select" v-model="formData.role">
@@ -79,7 +79,8 @@
                         <textarea v-model="formData.father_inlaws_full_address" id="father_inlaws_full_address" class="form-control" name="father_inlaws_full_address" type="text"></textarea>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button @click.prevent="updateMember" class="btn btn-primary">Submit</button>
+                <button v-on:click.prevent="deleteUser" class="btn btn-danger">Delete</button>
             </form>
         </div>
     </div>
@@ -156,13 +157,18 @@ export default {
     methods: {
         updateMember: function() {
             axios.post(`/member/${this.$route.params.id}`, this.formData).then((response) => {
-                this.$router.go();
+                window.location = '/';
             });
         },
         getParentsChoices: function(forRole) {
             axios.get(`/candidates?role=${forRole}`).then((response) => {
                 this.motherChoices = response.data.female;
                 this.fatherChoices = response.data.male;
+            });
+        },
+        deleteUser: function() {
+            axios.get(`/delete/member/${this.$route.params.id}`).then((response) => {
+                window.location = '/';
             });
         },
     },

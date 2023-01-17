@@ -93,7 +93,7 @@ def member_by_id(_id):
 
 def delete_member(_id):
     delete_member_by_id(_id)
-    return redirect(url_for('all_members'))
+    return redirect(url_for('index'))
 
 
 def get_children(_id):
