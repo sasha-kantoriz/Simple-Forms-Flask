@@ -17,7 +17,7 @@ class BaseMemberForm(FlaskForm):
     #
     husbands_full_name = StringField('Nama lengkap Suami:', id='husbands_full_name')
     wifes_full_name = StringField('Nama lengkap Istri:', id='wifes_full_name')
-    inlaws_full_name = StringField('Nama lengkap Menantu:', id='inlaws_full_name')
+    inlaws_full_name = StringField('Nama lengkap Mertua:', id='inlaws_full_name')
     father_inlaws_full_address = StringField('Alamat lengkap Mertua:', id='father_inlaws_full_address', widget=TextArea())
 
 
