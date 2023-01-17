@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-row">
                     <label for="date_of_birth">Tanggal Lahir:</label>
-                    <input v-model="formData.date_of_birth" id="date_of_birth" class="form-control" name="date_of_birth" type="text">
+                    <Datepicker :enable-time-picker="false" v-model="formData.date_of_birth" id="date_of_birth" class="form-control" name="date_of_birth" type="text"></Datepicker>
                 </div>
                 <div class="form-row">
                     <label for="place_of_birth">Tempat Lahir:</label>
@@ -53,14 +53,14 @@
                         <option v-for="opt in fatherChoices" :key="opt" :value="opt.value">{{ opt.title }}</option>
                     </select>
                 </div>
-                <div v-if="['grand', 'adult', 'child'].includes(formData.role)">
+                <div v-show="['grand', 'adult', 'child'].includes(formData.role)">
                     <div class="form-row">
                         <label for="spouse_full_name">Nama lengkap Suami/Istri:</label>
                         <input v-model="formData.spouse_full_name" id="spouse_full_name" class="form-control" name="spouse_full_name" type="text">
                     </div>
                     <div class="form-row">
                         <label for="spouse_date_of_birth">Tanggal Lahir Suami/Istri:</label>
-                        <input v-model="formData.spouse_date_of_birth" id="spouse_date_of_birth" class="form-control" name="spouse_date_of_birth" type="text">
+                        <Datepicker :enable-time-picker="false" v-model="formData.spouse_date_of_birth" id="spouse_date_of_birth" class="form-control" name="spouse_date_of_birth" type="text"></Datepicker>
                     </div>
                     <div class="form-row">
                         <label for="spouse_place_of_birth">Tempat Lahir Suami/Istri:</label>
@@ -87,9 +87,12 @@
 
 <script>
 import axios from 'axios';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 
 export default {
+    components: { Datepicker },
     data() {
         return {
             generations: [
