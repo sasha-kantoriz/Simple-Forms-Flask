@@ -53,7 +53,7 @@
                         <option v-for="opt in fatherChoices" :key="opt" :value="opt.value">{{ opt.title }}</option>
                     </select>
                 </div>
-                <div v-show="['grand', 'adult', 'child'].includes(formData.role)">
+                <div v-if="['grand', 'adult', 'child'].includes(formData.role)">
                     <div class="form-row">
                         <label for="spouse_full_name">Nama lengkap Suami/Istri:</label>
                         <input v-model="formData.spouse_full_name" id="spouse_full_name" class="form-control" name="spouse_full_name" type="text">
