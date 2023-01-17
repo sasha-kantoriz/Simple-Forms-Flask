@@ -60,7 +60,12 @@ Form
 .form-row li {
     display: flex;
 }
-input:not([type=checkbox]), textarea {
+.radio-inputs {
+    display: flex;
+    width: 70%;
+    justify-content: space-around;
+}
+input:not([type=checkbox,radio]), textarea {
     margin-bottom: 5px;
     width: 100%;
 }

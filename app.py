@@ -39,6 +39,7 @@ app.add_url_rule('/grandchildren/<string:_id>', view_func=routes.get_grandchildr
 app.add_url_rule('/grandparents/<string:_id>', view_func=routes.get_grandparents)
 app.add_url_rule('/grandgrandchildren/<string:_id>', view_func=routes.get_grandgrand_children)
 app.add_url_rule('/grandgrandparents/<string:_id>', view_func=routes.get_grandgrand_parents)
+app.add_url_rule('/candidates', view_func=routes.get_parents_candidates)
 
 app.register_blueprint(views.auth)
 

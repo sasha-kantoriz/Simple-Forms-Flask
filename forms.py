@@ -20,7 +20,7 @@ class BaseMemberForm(FlaskForm):
     spouse_place_of_birth = StringField('Tempat Lahir Suami/Istri:', id='spouse_place_of_birth', widget=TextArea())
     inlaws_full_name = StringField('Nama lengkap Mertua:', id='inlaws_full_name')
     father_inlaws_full_address = StringField('Alamat lengkap Mertua:', id='father_inlaws_full_address', widget=TextArea())
-    deceased = BooleanField('Almarhum Mertua:', id='father_inlaws_deceased')
+    father_inlaws_deceased = BooleanField('Almarhum Mertua:', id='father_inlaws_deceased')
 
 
 class ChildMemberForm(BaseMemberForm):
