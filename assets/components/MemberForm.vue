@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-row">
                     <label for="date_of_birth">Tanggal Lahir:</label>
-                    <Datepicker :enable-time-picker="false" v-model="formData.date_of_birth" id="date_of_birth" class="form-control" name="date_of_birth" type="text"></Datepicker>
+                    <Datepicker :enable-time-picker="false" model-type="dd.MM.yyyy" v-model="formData.date_of_birth" id="date_of_birth" class="form-control" name="date_of_birth" type="text"></Datepicker>
                 </div>
                 <div class="form-row">
                     <label for="place_of_birth">Tempat Lahir:</label>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="form-row">
                         <label for="spouse_date_of_birth">Tanggal Lahir Suami/Istri:</label>
-                        <Datepicker :enable-time-picker="false" v-model="formData.spouse_date_of_birth" id="spouse_date_of_birth" class="form-control" name="spouse_date_of_birth" type="text"></Datepicker>
+                        <Datepicker :enable-time-picker="false" model-type="dd.MM.yyyy" v-model="formData.spouse_date_of_birth" id="spouse_date_of_birth" class="form-control" name="spouse_date_of_birth" type="text"></Datepicker>
                     </div>
                     <div class="form-row">
                         <label for="spouse_place_of_birth">Tempat Lahir Suami/Istri:</label>
