@@ -17,7 +17,7 @@
                         </div>
                         <div id="gender" class="form-check">
                             <label class="form-check-label" for="gender-2">Pria</label>
-                            <input class="form-check-input" v-model="formData.gender" id="gender-2" name="gender" type="radio" value="male">
+                            <input class="form-check-input" v-model="formData.gender" id="gender-2" name="gender" type="radio" value="male" checked>
                         </div>
                     </div>
                 </div>
