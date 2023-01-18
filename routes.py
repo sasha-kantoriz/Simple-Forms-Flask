@@ -45,9 +45,12 @@ def all_members():
                                           spouse_full_name=member_data.get('spouse_full_name'),
                                           spouse_date_of_birth=member_data.get('spouse_date_of_birth'),
                                           spouse_place_of_birth=member_data.get('spouse_place_of_birth'),
-                                          inlaws_full_name=member_data.get('inlaws_full_name'),
+                                          spouse_deceased=member_data.get('spouse_deceased'),
+                                          father_inlaws_full_name=member_data.get('father_inlaws_full_name'),
                                           father_inlaws_full_address=member_data.get('father_inlaws_full_address'),
-                                          father_inlaws_deceased=member_data.get('father_inlaws_deceased')
+                                          father_inlaws_deceased=member_data.get('father_inlaws_deceased'),
+                                          mother_inlaws_full_name=member_data.get('mother_inlaws_full_name'),
+                                          mother_inlaws_deceased=member_data.get('mother_inlaws_deceased'),
             )
         else:
             new_member = add_new_member(role=member_data.get('role'), gender=member_data.get('gender'),
@@ -57,9 +60,12 @@ def all_members():
                                         spouse_full_name=member_data.get('spouse_full_name'),
                                         spouse_date_of_birth=member_data.get('spouse_date_of_birth'),
                                         spouse_place_of_birth=member_data.get('spouse_place_of_birth'),
-                                        inlaws_full_name=member_data.get('inlaws_full_name'),
+                                        spouse_deceased=member_data.get('spouse_deceased'),
+                                        father_inlaws_full_name=member_data.get('father_inlaws_full_name'),
                                         father_inlaws_full_address=member_data.get('father_inlaws_full_address'),
                                         father_inlaws_deceased=member_data.get('father_inlaws_deceased'),
+                                        mother_inlaws_full_name=member_data.get('mother_inlaws_full_name'),
+                                        mother_inlaws_deceased=member_data.get('mother_inlaws_deceased'),
                                         mother_id=member_data.get('mother_id'), father_id=member_data.get('father_id'),
             )
         return redirect(url_for('all_members'))
@@ -75,18 +81,22 @@ def member_by_id(_id):
         # return render_template('modify_user.html', form=member_form, member=get_member_by_id(_id), getattr=getattr)
         return dict(get_member_by_id(_id))
     if request.method == 'POST':
-        update_member_by_id(_id=_id, role=member_form.role.data, gender=member_form.gender.data,
-                            full_name=member_form.full_name.data,
-                            complete_address=member_form.complete_address.data,
-                            date_of_birth=member_form.date_of_birth.data,
-                            place_of_birth=member_form.place_of_birth.data,
-                            deceased=member_form.deceased.data,
-                            spouse_full_name=member_form.spouse_full_name.data,
-                            spouse_date_of_birth=member_form.spouse_date_of_birth.data,
-                            spouse_place_of_birth=member_form.spouse_place_of_birth.data,
-                            inlaws_full_name=member_form.inlaws_full_name.data,
-                            father_inlaws_full_address=member_form.father_inlaws_full_address.data,
-                            father_inlaws_deceased=member_form.father_inlaws_deceased.data
+        member_data = request.get_json()
+        update_member_by_id(_id=_id, role=member_data.get('role'), gender=member_data.get('gender'),
+                            full_name=member_data.get('full_name'),
+                            complete_address=member_data.get('complete_address'),
+                            date_of_birth=member_data.get('date_of_birth'),
+                            place_of_birth=member_data.get('place_of_birth'),
+                            deceased=member_data.get('deceased'),
+                            spouse_full_name=member_data.get('spouse_full_name'),
+                            spouse_date_of_birth=member_data.get('spouse_date_of_birth'),
+                            spouse_place_of_birth=member_data.get('spouse_place_of_birth'),
+                            spouse_deceased=member_data.get('spouse_deceased'),
+                            father_inlaws_full_name=member_data.get('father_inlaws_full_name'),
+                            father_inlaws_full_address=member_data.get('father_inlaws_full_address'),
+                            father_inlaws_deceased=member_data.get('father_inlaws_deceased'),
+                            mother_inlaws_full_name=member_data.get('mother_inlaws_full_name'),
+                            mother_inlaws_deceased=member_data.get('mother_inlaws_deceased'),
         )
         return redirect(url_for('all_members'))
 
