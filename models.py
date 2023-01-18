@@ -180,10 +180,14 @@ def update_member_by_id(_id, role=None, gender=None, full_name=None,
     if mother_inlaws_full_name:
         member.mother_inlaws_full_name = mother_inlaws_full_name
     #
-    member.father_inlaws_deceased = father_inlaws_deceased
-    member.mother_inlaws_deceased = mother_inlaws_deceased
-    member.spouse_deceased = spouse_deceased
-    member.deceased = deceased
+    if father_inlaws_deceased is not None:
+        member.father_inlaws_deceased = father_inlaws_deceased
+    if mother_inlaws_deceased is not None:
+        member.mother_inlaws_deceased = mother_inlaws_deceased
+    if spouse_deceased is not None:
+        member.spouse_deceased = spouse_deceased
+    if deceased is not None:
+        member.deceased = deceased
     #
     if mother_id:
         mother = Member.query.filter_by(id=mother_id).first()
