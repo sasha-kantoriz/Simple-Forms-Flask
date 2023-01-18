@@ -167,26 +167,24 @@ def update_member_by_id(_id, role=None, gender=None, full_name=None,
         member.place_of_birth = place_of_birth
     if complete_address:
         member.complete_address = complete_address
-    if deceased:
-        member.deceased = deceased
     if spouse_full_name:
         member.spouse_full_name = spouse_full_name
     if spouse_date_of_birth:
         member.spouse_full_name = spouse_full_name
     if spouse_place_of_birth:
         member.spouse_place_of_birth = spouse_place_of_birth
-    if spouse_deceased:
-        member.spouse_deceased = spouse_deceased
     if father_inlaws_full_name:
         member.father_inlaws_full_name = father_inlaws_full_name
     if father_inlaws_full_address:
         member.father_inlaws_full_address = father_inlaws_full_address
-    if father_inlaws_deceased:
-        member.father_inlaws_deceased = father_inlaws_deceased
     if mother_inlaws_full_name:
         member.mother_inlaws_full_name = mother_inlaws_full_name
-    if mother_inlaws_deceased:
-        member.mother_inlaws_deceased = mother_inlaws_deceased
+    #
+    member.father_inlaws_deceased = father_inlaws_deceased
+    member.mother_inlaws_deceased = mother_inlaws_deceased
+    member.spouse_deceased = spouse_deceased
+    member.deceased = deceased
+    #
     if mother_id:
         mother = Member.query.filter_by(id=mother_id).first()
         if mother:
