@@ -12,9 +12,12 @@
                         <th>Nama lengkap Suami/Istri</th>
                         <th>Tanggal Lahir Suami/Istri</th>
                         <th>Tempat Lahir Suami/Istri</th>
-                        <th>Nama lengkap Mertua</th>
+                        <th>Almarhum Suami/Istri</th>
+                        <th>Nama lengkap Mertua perempuan</th>
+                        <th>Almarhum Mertua perempuan</th>
+                        <th>Nama lengkap Mertua laki-laki</th>
+                        <th>Almarhum Mertua laki-laki</th>
                         <th>Alamat lengkap Mertua</th>
-                        <th>Almarhum Mertua</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,9 +30,12 @@
                         <td>{{ member.spouse_full_name }}</td>
                         <td>{{ member.spouse_date_of_birth }}</td>
                         <td>{{ member.spouse_place_of_birth }}</td>
-                        <td>{{ member.inlaws_full_name }}</td>
-                        <td>{{ member.father_inlaws_full_address }}</td>
+                        <td>{{ member.spouse_deceased }}</td>
+                        <td>{{ member.mother_inlaws_full_name }}</td>
+                        <td>{{ member.mother_inlaws_deceased }}</td>
+                        <td>{{ member.father_inlaws_full_name }}</td>
                         <td>{{ member.father_inlaws_deceased }}</td>
+                        <td>{{ member.father_inlaws_full_address }}</td>
                     </tr>
                 </tbody>
             </table>
