@@ -71,20 +71,20 @@
                         <input v-model="formData.spouse_deceased" class="form-check-input" id="spouse_deceased" name="deceased" type="checkbox">
                     </div>
                     <div class="form-row">
-                        <label for="mother_inlaws_full_name">Nama lengkap Mertua perempuan:</label>
-                        <input v-model="formData.mother_inlaws_full_name" id="mother_inlaws_full_name" class="form-control" name="mother_inlaws_full_name" type="text">
-                    </div>
-                    <div class="form-row form-row-inline">
-                        <label for="mother_inlaws_deceased">Almarhum Mertua perempuan:</label>
-                        <input v-model="formData.mother_inlaws_deceased" class="form-check-input" id="mother_inlaws_deceased" name="mother_inlaws_deceased" type="checkbox">
-                    </div>
-                    <div class="form-row">
                         <label for="father_inlaws_full_name">Nama lengkap Mertua laki-laki:</label>
                         <input v-model="formData.father_inlaws_full_name" id="father_inlaws_full_name" class="form-control" name="father_inlaws_full_name" type="text">
                     </div>
                     <div class="form-row form-row-inline">
                         <label for="father_inlaws_deceased">Almarhum Mertua laki-laki:</label>
                         <input v-model="formData.father_inlaws_deceased" class="form-check-input" id="father_inlaws_deceased" name="father_inlaws_deceased" type="checkbox">
+                    </div>
+                    <div class="form-row">
+                        <label for="mother_inlaws_full_name">Nama lengkap Mertua perempuan:</label>
+                        <input v-model="formData.mother_inlaws_full_name" id="mother_inlaws_full_name" class="form-control" name="mother_inlaws_full_name" type="text">
+                    </div>
+                    <div class="form-row form-row-inline">
+                        <label for="mother_inlaws_deceased">Almarhum Mertua perempuan:</label>
+                        <input v-model="formData.mother_inlaws_deceased" class="form-check-input" id="mother_inlaws_deceased" name="mother_inlaws_deceased" type="checkbox">
                     </div>
                     <div class="form-row">
                         <label for="father_inlaws_full_address">Alamat lengkap Mertua:</label>
